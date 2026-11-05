@@ -26,9 +26,26 @@ class TextViewWindow(Gtk.Window):
             + "or 'underline' to modify the text accordingly."
         )
 
+        # Scrol derecho
+        scrolledwindow_two = Gtk.ScrolledWindow()
+        scrolledwindow_two.set_hexpand(True)
+        scrolledwindow_two.set_vexpand(True)
+
+        # Textview dwerecho
+        textview_two = Gtk.TextView()
+        textbuffer_two = textview_two.get_buffer()
+        textbuffer_two.set_text(
+            "This is some text inside of a Gtk.TextView. "
+            + "Select text and click one of the buttons 'bold', 'italic', "
+            + "or 'underline' to modify the text accordingly."
+        )
+
         # Unir cosas
         scrolledwindow.add(textview_one)
         self.grid.attach(scrolledwindow, 0, 1, 1, 1)
+
+        scrolledwindow_two.add(textview_two)
+        self.grid.attach(scrolledwindow_two, 1, 1, 1, 1)
     
         
 
