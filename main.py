@@ -54,7 +54,7 @@ class TextViewWindow(Gtk.Window):
     
         # Crate toolbar
         toolbar = Gtk.Toolbar()
-        self.box_outer.pack_start(toolbar, True, True, 0)
+        self.box_outer.pack_start(toolbar, False, False, 0)
 
         button_bold = Gtk.ToolButton()
         button_bold.set_icon_name("format-text-bold-symbolic")
