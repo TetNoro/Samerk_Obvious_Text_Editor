@@ -10,7 +10,9 @@ class TextViewWindow(Gtk.Window):
         self.set_border_width(20)
         self.set_default_size(-1, 350)
         self.grid = Gtk.Grid()
-        self.add(self.grid)
+        
+        self.box_outer = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+        self.add(self.box_outer)
 
         # Scroll izquierdo
         scrolledwindow = Gtk.ScrolledWindow()
@@ -42,10 +44,10 @@ class TextViewWindow(Gtk.Window):
 
         # Unir cosas
         scrolledwindow.add(textview_one)
-        self.grid.attach(scrolledwindow, 0, 1, 1, 1)
+        self.box_outer.pack_start(scrolledwindow, True, True, 0)
 
         scrolledwindow_two.add(textview_two)
-        self.grid.attach(scrolledwindow_two, 1, 1, 1, 1)
+        self.box_outer.pack_start(scrolledwindow_two, True, True, 0)
     
         
 
