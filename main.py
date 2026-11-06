@@ -91,6 +91,23 @@ class TextViewWindow(Gtk.Window):
         button_search.set_icon_name("system-search-symbolic")
         toolbar.insert(button_search, 11)
 
+        # solo use IA para saber el nombre de los iconos ya que no sabia que le daba los inconos.
+        # Botón Abrir
+        button_open = Gtk.ToolButton()
+        button_open.set_icon_name("document-open-symbolic")
+        toolbar.insert(button_open, 12)
+
+        # Botón Guardar
+        button_save = Gtk.ToolButton()
+        button_save.set_icon_name("document-save-symbolic")
+        toolbar.insert(button_save, 13)
+
+        # Botón Eliminar
+        button_delete = Gtk.ToolButton()
+        button_delete.set_icon_name("user-trash-symbolic")
+        toolbar.insert(button_delete, 14)
+        # fin ia
+
         # Crear los botones
         grid_botones = Gtk.Grid()
 
