@@ -5,7 +5,21 @@ from gi.repository import Gtk, Pango
 
 class TextViewWindow(Gtk.Window):
     def imprimir_info(self, *arg):
-        print(arg)
+        print(arg[2])
+
+    def onFocusIn(self, tv, event):
+        textbuf = tv.get_buffer()
+        if (textbuf.get_text(textbuf.get_start_iter(), textbuf.get_end_iter(), True) == self.text_place_holder):
+            textbuf.set_text("")
+        return False
+
+
+    def onFocusOut(self, tv, event):
+        textbuf = tv.get_buffer()
+        if (textbuf.get_text(textbuf.get_start_iter(), textbuf.get_end_iter(), True) == ""):
+            textbuf.set_text(self.text_place_holder)
+        return False
+
 
     def __init__(self):
         Gtk.Window.__init__(self, title="TextView Example")
@@ -17,6 +31,10 @@ class TextViewWindow(Gtk.Window):
         self.box_outer = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
         self.box_text_editor = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
 
+        self.text_place_holder = """Inserta texto aqui
+        """
+        self.show_place_holder = True
+
         self.add(self.box_outer)
 
         # Scroll izquierdo
@@ -27,10 +45,11 @@ class TextViewWindow(Gtk.Window):
         # Textview
         textview_one = Gtk.TextView()
         textbuffer_one = textview_one.get_buffer()
-        textbuffer_one.set_text("""ESNEI es nota en interfaz
-Escribir Sabiamente Notas en interfaz
-        """
-        )
+        textbuffer_one.set_text(self.text_place_holder)
+        textview_one.connect("focus-in-event", self.onFocusIn)
+        textview_one.connect("focus-out-event", self.onFocusOut)
+        #textview_one.connect("focus-out-event", self.erase_place_holder)
+        #textview_one.connect("focus-in-event", self.set_place_holder)
 
         # Scrol derecho
         scrolledwindow_two = Gtk.ScrolledWindow()
