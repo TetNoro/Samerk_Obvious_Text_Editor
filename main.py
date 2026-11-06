@@ -24,10 +24,9 @@ class TextViewWindow(Gtk.Window):
         # Textview
         textview_one = Gtk.TextView()
         textbuffer_one = textview_one.get_buffer()
-        textbuffer_one.set_text(
-            "This is some text inside of a Gtk.TextView. "
-            + "Select text and click one of the buttons 'bold', 'italic', "
-            + "or 'underline' to modify the text accordingly."
+        textbuffer_one.set_text("""ESNEI es nota en interfaz
+Escribir Sabiamente Notas en interfaz
+        """
         )
 
         # Scrol derecho
@@ -38,10 +37,9 @@ class TextViewWindow(Gtk.Window):
         # Textview dwerecho
         textview_two = Gtk.TextView()
         textbuffer_two = textview_two.get_buffer()
-        textbuffer_two.set_text(
-            "This is some text inside of a Gtk.TextView. "
-            + "Select text and click one of the buttons 'bold', 'italic', "
-            + "or 'underline' to modify the text accordingly."
+        textbuffer_two.set_text("""Aca puedes ver la salida de tu codigo
+:)
+        """
         )
 
         # Unir cosas
@@ -106,6 +104,22 @@ class TextViewWindow(Gtk.Window):
         button_delete = Gtk.ToolButton()
         button_delete.set_icon_name("user-trash-symbolic")
         toolbar.insert(button_delete, 14)
+        
+        # Botón Cortar
+        button_cut = Gtk.ToolButton()
+        button_cut.set_icon_name("edit-cut-symbolic")
+        toolbar.insert(button_cut, 12)
+
+        # Botón Copiar
+        button_copy = Gtk.ToolButton()
+        button_copy.set_icon_name("edit-copy-symbolic")
+        toolbar.insert(button_copy, 13)
+
+        # Botón Pegar
+        button_paste = Gtk.ToolButton()
+        button_paste.set_icon_name("edit-paste-symbolic")
+        toolbar.insert(button_paste, 14)
+
         # fin ia
 
         # Crear los botones
