@@ -104,7 +104,7 @@ Escribir Sabiamente Notas en interfaz
         button_delete = Gtk.ToolButton()
         button_delete.set_icon_name("user-trash-symbolic")
         toolbar.insert(button_delete, 14)
-        
+
         # Botón Cortar
         button_cut = Gtk.ToolButton()
         button_cut.set_icon_name("edit-cut-symbolic")
@@ -119,6 +119,11 @@ Escribir Sabiamente Notas en interfaz
         button_paste = Gtk.ToolButton()
         button_paste.set_icon_name("edit-paste-symbolic")
         toolbar.insert(button_paste, 14)
+
+        # Botón Actualizar / Recargar
+        button_refresh = Gtk.ToolButton()
+        button_refresh.set_icon_name("view-refresh-symbolic")
+        toolbar.insert(button_refresh, 15)
 
         # fin ia
 
