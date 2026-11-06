@@ -4,6 +4,9 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, Pango
 
 class TextViewWindow(Gtk.Window):
+    def imprimir_info(self, *arg):
+        print(arg)
+
     def __init__(self):
         Gtk.Window.__init__(self, title="TextView Example")
 
@@ -45,6 +48,7 @@ Escribir Sabiamente Notas en interfaz
         # Unir cosas
         scrolledwindow.add(textview_one)
         self.box_text_editor.pack_start(scrolledwindow, True, True, 0)
+        textview_one.get_buffer().connect("insert-text", self.imprimir_info)
 
         scrolledwindow_two.add(textview_two)
         self.box_text_editor.pack_start(scrolledwindow_two, True, True, 0)
