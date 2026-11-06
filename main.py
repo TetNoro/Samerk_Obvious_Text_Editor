@@ -15,7 +15,6 @@ class TextViewWindow(Gtk.Window):
         self.box_text_editor = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
 
         self.add(self.box_outer)
-        self.box_outer.pack_end(self.box_text_editor, True, True, 0)
 
         # Scroll izquierdo
         scrolledwindow = Gtk.ScrolledWindow()
@@ -51,10 +50,10 @@ class TextViewWindow(Gtk.Window):
 
         scrolledwindow_two.add(textview_two)
         self.box_text_editor.pack_start(scrolledwindow_two, True, True, 0)
+
     
         # Crate toolbar
         toolbar = Gtk.Toolbar()
-        self.box_outer.pack_start(toolbar, False, False, 0)
 
         button_bold = Gtk.ToolButton()
         button_bold.set_icon_name("format-text-bold-symbolic")
@@ -91,6 +90,42 @@ class TextViewWindow(Gtk.Window):
         button_search = Gtk.ToolButton()
         button_search.set_icon_name("system-search-symbolic")
         toolbar.insert(button_search, 11)
+
+        # Crear los botones
+        grid_botones = Gtk.Grid()
+
+
+        check_editable = Gtk.CheckButton(label="Editable")
+        check_editable.set_active(True)
+        grid_botones.attach(check_editable, 0, 0, 1, 1)
+
+        check_cursor = Gtk.CheckButton(label="Cursor Visible")
+        check_cursor.set_active(True)
+        grid_botones.attach_next_to(
+            check_cursor, check_editable, Gtk.PositionType.RIGHT, 1, 1
+        )
+
+        radio_wrapnone = Gtk.RadioButton.new_with_label_from_widget(None, "No Wrapping")
+        grid_botones.attach(radio_wrapnone, 0, 1, 1, 1)
+
+        radio_wrapchar = Gtk.RadioButton.new_with_label_from_widget(
+            radio_wrapnone, "Character Wrapping"
+        )
+        grid_botones.attach_next_to(
+            radio_wrapchar, radio_wrapnone, Gtk.PositionType.RIGHT, 1, 1
+        )
+
+        radio_wrapword = Gtk.RadioButton.new_with_label_from_widget(
+            radio_wrapnone, "Word Wrapping"
+        )
+        grid_botones.attach_next_to(
+            radio_wrapword, radio_wrapchar, Gtk.PositionType.RIGHT, 1, 1
+        )
+
+        # pack
+        self.box_outer.pack_start(toolbar, False, False, 0)
+        self.box_outer.pack_start(self.box_text_editor, True, True, 0)
+        self.box_outer.pack_start(grid_botones, False, False, 0)
 
 win = TextViewWindow()
 win.connect("destroy", Gtk.main_quit)
