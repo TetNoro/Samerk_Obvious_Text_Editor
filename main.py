@@ -133,6 +133,7 @@ class TextViewWindow(Gtk.Window):
         
         # Textview
         self.textview_one = Gtk.TextView()
+        self.textview_one.set_monospace(True)
         textbuffer_one = self.textview_one.get_buffer()
         textbuffer_one.set_text(self.text_place_holder)
         self.textview_one.connect("focus-in-event", self.onFocusIn)
@@ -147,6 +148,7 @@ class TextViewWindow(Gtk.Window):
 
         # Textview dwerecho
         textview_two = Gtk.TextView()
+        textview_two.set_monospace(True)
         textbuffer_two = textview_two.get_buffer()
         textbuffer_two.set_text("""Aca puedes ver la salida de tu codigo
 :)
