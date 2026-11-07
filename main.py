@@ -4,6 +4,66 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, Pango
 
 class TextViewWindow(Gtk.Window):
+    def add_filters(self, dialog):
+        filter_text = Gtk.FileFilter()
+        filter_text.set_name("Text files")
+        filter_text.add_mime_type("text/plain")
+        dialog.add_filter(filter_text)
+
+        filter_py = Gtk.FileFilter()
+        filter_py.set_name("Python files")
+        filter_py.add_mime_type("text/x-python")
+        dialog.add_filter(filter_py)
+
+        filter_any = Gtk.FileFilter()
+        filter_any.set_name("Any files")
+        filter_any.add_pattern("*")
+        dialog.add_filter(filter_any)
+
+    def on_file_clicked(self, widget):
+        dialog = Gtk.FileChooserDialog(
+            title="Please choose a file", parent=self, action=Gtk.FileChooserAction.OPEN
+        )
+        dialog.add_buttons(
+            Gtk.STOCK_CANCEL,
+            Gtk.ResponseType.CANCEL,
+            Gtk.STOCK_OPEN,
+            Gtk.ResponseType.OK,
+        )
+
+        self.add_filters(dialog)
+
+        response = dialog.run()
+        if response == Gtk.ResponseType.OK:
+            print("Open clicked")
+            print("File selected: " + dialog.get_filename())
+        elif response == Gtk.ResponseType.CANCEL:
+            print("Cancel clicked")
+
+        dialog.destroy()
+
+    def on_save_clicked(self, widget):
+        dialog = Gtk.FileChooserDialog(
+            title="Please choose a file", parent=self, action=Gtk.FileChooserAction.SAVE
+        )
+        dialog.add_buttons(
+            Gtk.STOCK_CANCEL,
+            Gtk.ResponseType.CANCEL,
+            Gtk.STOCK_OPEN,
+            Gtk.ResponseType.OK,
+        )
+
+        self.add_filters(dialog)
+
+        response = dialog.run()
+        if response == Gtk.ResponseType.OK:
+            print("Open clicked")
+            print("File Saved: " + dialog.get_filename())
+        elif response == Gtk.ResponseType.CANCEL:
+            print("Cancel clicked")
+
+        dialog.destroy()
+
     def imprimir_info(self, *arg):
         print(arg[2])
 
@@ -112,43 +172,35 @@ class TextViewWindow(Gtk.Window):
         button_search.set_icon_name("system-search-symbolic")
         toolbar.insert(button_search, 11)
 
-        # solo use IA para saber el nombre de los iconos ya que no sabia que le daba los inconos.
-        # Botón Abrir
         button_open = Gtk.ToolButton()
         button_open.set_icon_name("document-open-symbolic")
+        button_open.connect("clicked", self.on_file_clicked)
         toolbar.insert(button_open, 12)
 
-        # Botón Guardar
         button_save = Gtk.ToolButton()
         button_save.set_icon_name("document-save-symbolic")
+        button_save.connect("clicked", self.on_save_clicked)
         toolbar.insert(button_save, 13)
 
-        # Botón Eliminar
         button_delete = Gtk.ToolButton()
         button_delete.set_icon_name("user-trash-symbolic")
         toolbar.insert(button_delete, 14)
 
-        # Botón Cortar
         button_cut = Gtk.ToolButton()
         button_cut.set_icon_name("edit-cut-symbolic")
         toolbar.insert(button_cut, 12)
 
-        # Botón Copiar
         button_copy = Gtk.ToolButton()
         button_copy.set_icon_name("edit-copy-symbolic")
         toolbar.insert(button_copy, 13)
 
-        # Botón Pegar
         button_paste = Gtk.ToolButton()
         button_paste.set_icon_name("edit-paste-symbolic")
         toolbar.insert(button_paste, 14)
 
-        # Botón Actualizar / Recargar
         button_refresh = Gtk.ToolButton()
         button_refresh.set_icon_name("view-refresh-symbolic")
         toolbar.insert(button_refresh, 15)
-
-        # fin ia
 
         # Crear los botones
         grid_botones = Gtk.Grid()
