@@ -34,13 +34,21 @@ class TextViewWindow(Gtk.Window):
         self.add_filters(dialog)
 
         response = dialog.run()
+        archivo = None
+
         if response == Gtk.ResponseType.OK:
             print("Open clicked")
             print("File selected: " + dialog.get_filename())
+            archivo = dialog.get_filename()
         elif response == Gtk.ResponseType.CANCEL:
             print("Cancel clicked")
 
         dialog.destroy()
+
+        if archivo:
+            with open(archivo, "r", encoding="utf-8") as f:
+                textbuffer = self.textview_one.get_buffer()
+                textbuffer.set_text(f.read())
 
     def on_save_clicked(self, widget):
         dialog = Gtk.FileChooserDialog(
@@ -103,11 +111,11 @@ class TextViewWindow(Gtk.Window):
         scrolledwindow.set_vexpand(True)
         
         # Textview
-        textview_one = Gtk.TextView()
-        textbuffer_one = textview_one.get_buffer()
+        self.textview_one = Gtk.TextView()
+        textbuffer_one = self.textview_one.get_buffer()
         textbuffer_one.set_text(self.text_place_holder)
-        textview_one.connect("focus-in-event", self.onFocusIn)
-        textview_one.connect("focus-out-event", self.onFocusOut)
+        self.textview_one.connect("focus-in-event", self.onFocusIn)
+        self.textview_one.connect("focus-out-event", self.onFocusOut)
         #textview_one.connect("focus-out-event", self.erase_place_holder)
         #textview_one.connect("focus-in-event", self.set_place_holder)
 
@@ -125,9 +133,9 @@ class TextViewWindow(Gtk.Window):
         )
 
         # Unir cosas
-        scrolledwindow.add(textview_one)
+        scrolledwindow.add(self.textview_one)
         self.box_text_editor.pack_start(scrolledwindow, True, True, 0)
-        textview_one.get_buffer().connect("insert-text", self.imprimir_info)
+        self.textview_one.get_buffer().connect("insert-text", self.imprimir_info)
 
         scrolledwindow_two.add(textview_two)
         self.box_text_editor.pack_start(scrolledwindow_two, True, True, 0)
