@@ -164,7 +164,9 @@ como comentarios y que el desarrolador ya resuelva
 
 O solo formatear texto a un estilo MARKDOWN pero usando solo ASCII
 
-algo similar a la documentario de l3afpad que utiliza === enumeracione ei ndentaciones
+algo similar a la documentario de l3afpad que utiliza === enumeracione e indentaciones
+
+(Nota, aca literalemnte copiado y pegado el readme de l3afpad, solo que recordato un poco para ahorrar espacio)
 
 L3afpad - GTK+ based simple text editor
 
@@ -177,12 +179,6 @@ focuses on keeping weight down to a minimum, only the most essential features
 are implemented in the editor. L3afpad is simple to use, is easily compiled,
 requires few libraries, and starts up quickly.
 
-L3afpad differs from it's ancestor [leafpad](http://tarot.freeshell.org/leafpad/),
-in that it uses GTK3 (while leafpad uses GTK2).
-
-This program is released under the GNU General Public License (GPL) version 2,
-see the file 'COPYING' for more information.
-
 
 Features
 ========
@@ -191,9 +187,6 @@ Features
   * Auto codeset detection (UTF-8 and some codesets)
   * Unlimitted Undo/Redo
   * Auto/Multi-line Indent
-  * Display line numbers
-  * Drag and Drop
-  * Printing
 
 
 Installation
@@ -203,19 +196,10 @@ L3afpad requires:
 * GTK+-3.x.x libraries
 * ncurses library
 
-and for building also:
-* automake
-* intltool
-
-Simple install procedure:
 
   $ tar xzvf l3afpad-x.x.x.tar.gz       # unpack the sources
   $ cd l3afpad-x.x.x                    # change to the toplevel directory
   $ ./autogen.sh                        # generate the `configure' script
-  $ ./configure                         # run the `configure' script
-  $ make                                # build L3afpad
-  [ Become root if necessary ]
-  # make install-strip                  # install L3afpad
 
 
 Keybindings
@@ -228,26 +212,14 @@ Ctrl-W                          Close
 Ctrl-P                          Print
 Ctrl-Q                          Quit
 Ctrl-Z                          Undo
-Shift-Ctrl-Z (Ctrl-Y)           Redo
-Ctrl-X                          Cut
-Ctrl-C                          Copy
-Ctrl-V                          Paste
-Ctrl-A                          Select All
-Ctrl-F                          Find
-Ctrl-G (F3)                     Find Next
-Shift-Ctrl-G (Shift-F3)         Find Previous
-Ctrl-H (Ctrl-R)                 Replace
-Ctrl-J                          Jump To
-Ctrl-T                          Always on Top
-Ctrl-Tab                        toggle tab width
-Tab with selection bound        multi-line indent
-Shift-Tab with selection bound  multi-line unindent
 
 
 Dejando de lado el ejemplo, estoy trabajando en un
 formato que convierta caracteens y lo formatee a eso, como markdown
 Se va a llamar
 SOML (Samerk Obvius Minilar Language)
+
+Nota, tal vez eso de convertir codigo escrito en un lenguaje a otro nunca llegue a la version final.
 
         """
         )
