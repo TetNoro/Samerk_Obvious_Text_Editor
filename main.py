@@ -62,15 +62,36 @@ class TextViewWindow(Gtk.Window):
         )
 
         self.add_filters(dialog)
+        dialog = Gtk.FileChooserDialog(
+            title="Please choose a file", parent=self, action=Gtk.FileChooserAction.SAVE
+        )
+        dialog.add_buttons(
+            Gtk.STOCK_CANCEL,
+            Gtk.ResponseType.CANCEL,
+            Gtk.STOCK_OPEN,
+            Gtk.ResponseType.OK,
+        )
+
+        self.add_filters(dialog)
 
         response = dialog.run()
+        archivo = None
+
         if response == Gtk.ResponseType.OK:
             print("Open clicked")
-            print("File Saved: " + dialog.get_filename())
+            print("File selected: " + dialog.get_filename())
+            archivo = dialog.get_filename()
         elif response == Gtk.ResponseType.CANCEL:
             print("Cancel clicked")
 
         dialog.destroy()
+
+        if archivo:
+            with open(archivo, "w", encoding="utf-8") as f:
+                textbuffer = self.textview_one.get_buffer()
+                startIter, endIter = textbuffer.get_bounds()    
+                text = textbuffer.get_text(startIter, endIter, False) 
+                f.write(text)
 
     def imprimir_info(self, *arg):
         print(arg[2])
