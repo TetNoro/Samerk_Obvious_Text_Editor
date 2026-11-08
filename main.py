@@ -26,6 +26,32 @@ class FileBuffer():
 
 
 class TextViewWindow(Gtk.Window):
+    def inicializar(self, name):
+        folder = pathlib.Path.home() / name
+        folder.mkdir(exist_ok=True)
+
+        conf = folder / "conf"
+        if not conf.exists():
+            conf.touch()
+
+        self.conf = conf
+        
+        with open(conf, "r", encoding="utf-8") as f:
+            t = f.read()
+            print("t es:\n", t)
+            if not t == '':
+                
+                with open(t, "r", encoding="utf-8") as ff2:
+                    textbuffer = self.textview_one.get_buffer()
+                    textbuffer.set_text(ff2.read())
+                    
+                    self.file_buffer.set_file(t, self.llabel)
+                    #print("debug: ", self.file_buffer.current_file)
+
+    def finalizar(self):
+        with open(str(self.conf), "w", encoding="utf-8") as f:
+            if not self.file_buffer.current_file == None:
+                f.write(str(self.file_buffer.current_file))
 
     def add_filters(self, dialog):
         filter_text = Gtk.FileFilter()
@@ -379,6 +405,8 @@ Nota, tal vez eso de convertir codigo escrito en un lenguaje a otro nunca llegue
         self.box_outer.pack_start(grid_botones, False, False, 0)
 
 win = TextViewWindow()
+win.inicializar(".SOTE")
 win.connect("destroy", Gtk.main_quit)
 win.show_all()
 Gtk.main()
+win.finalizar()
