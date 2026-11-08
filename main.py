@@ -1,9 +1,32 @@
 import gi
-
+import pathlib
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, Pango
 
+
+class FileBuffer():
+    def __init__(self):
+        self.current_file: pathlib.Path = None
+        self.current_folder: pathlib.Path = None
+        self.file_namee: str = ""
+
+    def get_file(self):
+        return self.current_file
+
+    def get_folder(self):
+        return self.current_folder
+
+    def set_file(self, file, label):
+        self.file_namee = pathlib.Path(file).name
+        self.current_file = file
+        self.current_folder = pathlib.Path(file).parents[0]
+        # print(self.file_namee)
+        label.set_text(self.file_namee)
+        
+
+
 class TextViewWindow(Gtk.Window):
+
     def add_filters(self, dialog):
         filter_text = Gtk.FileFilter()
         filter_text.set_name("Text files")
@@ -37,11 +60,12 @@ class TextViewWindow(Gtk.Window):
         archivo = None
 
         if response == Gtk.ResponseType.OK:
-            print("Open clicked")
-            print("File selected: " + dialog.get_filename())
+            # print("Open clicked")
+            # print("File selected: " + dialog.get_filename())
             archivo = dialog.get_filename()
         elif response == Gtk.ResponseType.CANCEL:
             print("Cancel clicked")
+            
 
         dialog.destroy()
 
@@ -49,11 +73,22 @@ class TextViewWindow(Gtk.Window):
             with open(archivo, "r", encoding="utf-8") as f:
                 textbuffer = self.textview_one.get_buffer()
                 textbuffer.set_text(f.read())
+                
+                self.file_buffer.set_file(archivo, self.llabel)
 
     def on_save_clicked(self, widget):
+
+        folder = self.file_buffer.get_folder()
+        if folder is None:
+            folder = str(pathlib.Path.home())
+        print(folder)
+
+
+
         dialog = Gtk.FileChooserDialog(
             title="Please choose a file", parent=self, action=Gtk.FileChooserAction.SAVE
         )
+
         dialog.add_buttons(
             Gtk.STOCK_CANCEL,
             Gtk.ResponseType.CANCEL,
@@ -61,16 +96,7 @@ class TextViewWindow(Gtk.Window):
             Gtk.ResponseType.OK,
         )
 
-        self.add_filters(dialog)
-        dialog = Gtk.FileChooserDialog(
-            title="Please choose a file", parent=self, action=Gtk.FileChooserAction.SAVE
-        )
-        dialog.add_buttons(
-            Gtk.STOCK_CANCEL,
-            Gtk.ResponseType.CANCEL,
-            Gtk.STOCK_OPEN,
-            Gtk.ResponseType.OK,
-        )
+        dialog.set_current_folder(str(folder))
 
         self.add_filters(dialog)
 
@@ -78,11 +104,12 @@ class TextViewWindow(Gtk.Window):
         archivo = None
 
         if response == Gtk.ResponseType.OK:
-            print("Open clicked")
-            print("File selected: " + dialog.get_filename())
+            # print("Open clicked")
+            # print("File selected: " + dialog.get_filename())
             archivo = dialog.get_filename()
         elif response == Gtk.ResponseType.CANCEL:
-            print("Cancel clicked")
+            # print("Cancel clicked")
+            pass
 
         dialog.destroy()
 
@@ -94,7 +121,8 @@ class TextViewWindow(Gtk.Window):
                 f.write(text)
 
     def imprimir_info(self, *arg):
-        print(arg[2])
+        if len(arg[2]) < 5:
+            print(arg[2])
 
     def onFocusIn(self, tv, event):
         textbuf = tv.get_buffer()
@@ -112,6 +140,8 @@ class TextViewWindow(Gtk.Window):
 
     def __init__(self):
         Gtk.Window.__init__(self, title="TextView Example")
+
+        self.file_buffer = FileBuffer()
 
         self.set_border_width(20)
         self.set_default_size(-1, 350)
@@ -234,7 +264,12 @@ Nota, tal vez eso de convertir codigo escrito en un lenguaje a otro nunca llegue
 
     
         # Crate toolbar
+        hbox = Gtk.Box(spacing=10)
+        hbox.set_homogeneous(False)
+
         toolbar = Gtk.Toolbar()
+
+
 
         button_bold = Gtk.ToolButton()
         button_bold.set_icon_name("format-text-bold-symbolic")
@@ -302,6 +337,11 @@ Nota, tal vez eso de convertir codigo escrito en un lenguaje a otro nunca llegue
         button_refresh.set_icon_name("view-refresh-symbolic")
         toolbar.insert(button_refresh, 15)
 
+        self.llabel = Gtk.Label(label="")
+
+        hbox.pack_start(toolbar, True, True, 0)
+        hbox.pack_start(self.llabel, True, True, 0)
+
         # Crear los botones
         grid_botones = Gtk.Grid()
 
@@ -334,7 +374,7 @@ Nota, tal vez eso de convertir codigo escrito en un lenguaje a otro nunca llegue
         )
 
         # pack
-        self.box_outer.pack_start(toolbar, False, False, 0)
+        self.box_outer.pack_start(hbox, False, False, 0)
         self.box_outer.pack_start(self.box_text_editor, True, True, 0)
         self.box_outer.pack_start(grid_botones, False, False, 0)
 
